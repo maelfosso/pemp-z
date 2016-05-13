@@ -1,0 +1,26 @@
+[
+  {
+    "id": "5a4d4n44nr5g6ss9",
+    "name": "Mael FOSSO",
+    "phone": "695165033",
+    "photo": "@drawable/photo_male_1"
+  },
+  {
+    "id": "98shj12a4dee23fa",
+    "name": "Borice NGOUNE",
+    "phone": "698554760",
+    "photo": "@drawable/photo_male_2"
+  },
+  {
+    "id": "j2fa78456faewb2",
+    "name": "Herve TETKA",
+    "phone": "699533684",
+    "photo": "@drawable/photo_male_3"
+  },
+  {
+    "id": "m71fa5gahe5f6ag",
+    "name": "Annie MABEUKEM",
+    "phone": "699398417",
+    "photo": "@drawable/photo_female_1"
+  }
+]
