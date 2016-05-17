@@ -15,4 +15,5 @@
     <dimen name="spacing_mlarge">20dp</dimen>
     <dimen name="spacing_xlarge">32dp</dimen>
 
+    <dimen name="recycler_item_size">192dp</dimen>
 </resources>

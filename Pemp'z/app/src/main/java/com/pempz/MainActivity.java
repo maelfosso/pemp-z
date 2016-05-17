@@ -1,5 +1,6 @@
 package com.pempz;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.PersistableBundle;
@@ -10,6 +11,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.MenuInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -20,19 +22,23 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.pempz.adapter.ContactsListAdapter;
 import com.pempz.data.Constant;
+import com.pempz.data.Tools;
 import com.pempz.model.Contact;
+import com.pempz.widget.CircleTransform;
 import com.pempz.widget.DividerItemDecoration;
+import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, ContactsListAdapter.OnItemClickListener {
 
     // @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -57,23 +63,25 @@ public class MainActivity extends AppCompatActivity
     // @BindView(R.id.nav_view)
     NavigationView navigationView;
 
+    ImageView image;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        initAction();
 
+        initActions();
         setupDrawerLayout();
         prepareActionBar(toolbar);
-        // Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_main);
-        // setSupportActionBar(toolbar);
+
+        Tools.systemBarLolipop(this);
 
         initRecyclerView();
     }
 
-    private void initAction() {
+    private void initActions() {
         fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,6 +101,12 @@ public class MainActivity extends AppCompatActivity
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         navigationView = (NavigationView) findViewById(R.id.nav_view);
 
+        View navHeader = navigationView.inflateHeaderView(R.layout.nav_header_main);
+        image = (ImageView) navHeader.findViewById(R.id.avatar);
+        Picasso.with(this).load(R.drawable.photo_female_7)
+                .resize(250, 250)
+                .transform(new CircleTransform())
+                .into(image);
     }
 
     private void setupDrawerLayout() {
@@ -109,12 +123,13 @@ public class MainActivity extends AppCompatActivity
     private void prepareActionBar(Toolbar tb) {
         setSupportActionBar(tb);
         ActionBar actionBar = getSupportActionBar();
+        // actionBar.setDisplayShowHomeEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
+
         if (!isSearch) {
             settingDrawer();
         }
-
     }
 
     private void settingDrawer() {
@@ -133,6 +148,7 @@ public class MainActivity extends AppCompatActivity
         };
 
         drawer.setDrawerListener(mDrawerToggle);
+        mDrawerToggle.syncState();
     }
 
     private void initRecyclerView() {
@@ -146,15 +162,7 @@ public class MainActivity extends AppCompatActivity
 
         adapter = new ContactsListAdapter(this, Constant.getContactsData(this));
         recyclerView.setAdapter(adapter);
-        adapter.SetOnItemClickListener(new ContactsListAdapter.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(View view, int position) {
-                Contact contact = adapter.getItem(position);
-
-                Snackbar.make(parent_view, contact.getName()+ ", " + contact.getPhone() + " Clicked ", Snackbar.LENGTH_SHORT).show();
-            }
-        });
+        adapter.setOnItemClickListener(this);
     }
 
     @Override
@@ -273,6 +281,16 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
+    @Override
+    public void onItemClick(View view, int position) {
+        Contact contact = adapter.getItem(position);
+
+        Snackbar.make(parent_view, contact.getName()+ ", " + contact.getPhone() + " Clicked ", Snackbar.LENGTH_SHORT).show();
+
+        Intent i = new Intent(this, ContactDetailsActivity.class);
+        i.putExtra(ContactDetailsActivity.EXTRA_OBJ, contact);
+        startActivity(i);
+    }
 
     private void closeSearch() {
         if (isSearch) {

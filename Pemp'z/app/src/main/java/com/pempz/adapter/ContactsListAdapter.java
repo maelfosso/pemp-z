@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.pempz.R;
@@ -43,7 +44,7 @@ public class ContactsListAdapter extends RecyclerView.Adapter<ContactsListAdapte
         void onItemClick(View view, int position);
     }
 
-    public void SetOnItemClickListener(final OnItemClickListener mItemClickListener) {
+    public void setOnItemClickListener(final OnItemClickListener mItemClickListener) {
         this.mOnItemClickListener = mItemClickListener;
     }
 
@@ -70,11 +71,20 @@ public class ContactsListAdapter extends RecyclerView.Adapter<ContactsListAdapte
 
         holder.name.setText(contact.getName());
         holder.phone.setText(contact.getPhone());
-
         Picasso.with(ctx).load(ctx.getResources().getIdentifier(contact.getPhoto(), null, ctx.getPackageName()))
                 .resize(100, 100)
                 .transform(new CircleTransform())
                 .into(holder.photo);
+
+        holder.lyt_parent.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                if (mOnItemClickListener != null) {
+                    mOnItemClickListener.onItemClick(view, position);
+                }
+            }
+        });
     }
 
     @Override
@@ -98,10 +108,14 @@ public class ContactsListAdapter extends RecyclerView.Adapter<ContactsListAdapte
         public TextView phone;
         // @BindView(R.id.contact_item_photo)
         public ImageView photo;
+        // @BindView(R.id.lyt_parent)
+        public LinearLayout lyt_parent;
 
         public ViewHolder(View view) {
             super(view);
             // ButterKnife.bind(this, view);
+
+            lyt_parent = (LinearLayout) view.findViewById(R.id.lyt_parent);
 
             name = (TextView) view.findViewById(R.id.contact_item_name);
             phone = (TextView) view.findViewById(R.id.contact_item_phone);
