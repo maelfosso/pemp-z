@@ -89,8 +89,11 @@ public class Constant {
     }
 
     public static List<Contact> getContactsData(Context ctx) {
+         String ISO_FORMAT = "dd-MM-yyyy'T'HH:mm";
+
         Type contactCollectionType = new TypeToken<List<Contact>>(){}.getType();
         GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.setDateFormat(ISO_FORMAT);
         Gson gson = gsonBuilder.create();
         List<Contact> items = gson.fromJson(loadJSONFromAsset(ctx, "contacts.json"), contactCollectionType);
 

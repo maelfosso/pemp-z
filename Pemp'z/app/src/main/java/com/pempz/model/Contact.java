@@ -1,6 +1,9 @@
 package com.pempz.model;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created by Mael FOSSO on 5/10/2016.
@@ -10,6 +13,12 @@ public class Contact implements Serializable {
     private String name;
     private String phone;
     private String photo;
+
+    @SerializedName("pempz")
+    private List<Pempz> pempz;
+
+    public Contact() {
+    }
 
     public Contact(String id, String name, String phone, String photo) {
         this.id = id;
@@ -59,5 +68,13 @@ public class Contact implements Serializable {
 
     public void setPhoto(String photo) {
         this.photo = photo;
+    }
+
+    public List<Pempz> getPempz() {
+        return pempz;
+    }
+
+    public void setPempz(List<Pempz> pempz) {
+        this.pempz = pempz;
     }
 }

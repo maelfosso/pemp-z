@@ -27,6 +27,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.pempz.MainActivity" />
         </activity>
+        <activity
+            android:name=".PempzDetailsActivity"
+            android:label="@string/title_activity_pempz_details"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

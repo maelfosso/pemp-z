@@ -3,7 +3,29 @@
     "id": "5a4d4n44nr5g6ss9",
     "name": "Mael FOSSO",
     "phone": "695165033",
-    "photo": "@drawable/photo_male_1"
+    "photo": "@drawable/photo_male_1",
+    "pempz": [
+      {
+        "message": "Desole, je ne suis pas disponible. Laisse moi te rappeler plustard.",
+        "from" : "12-08-2015T08:30",
+        "to": "12-08-2015T09:30"
+      },
+      {
+        "message": "Bonjour. Stp rappelle moi, je suis en reunion.",
+        "from": "11-2-2015T10:40",
+        "to": "11-2-2015T14:30"
+      },
+      {
+        "message": "Par rapport aux elements de la reunion, je l'ai pose sur ma table. Tu me trouveras demain a l'arrivee",
+        "from": "12-12-2015T08:30",
+        "to": "11-12-2015T10:00"
+      },
+      {
+        "message": "Je sais que je te dois. Soit patient s'il te plait. Je traverse des moments difficiles. Je rembourserai",
+        "from": "28-11-2015T00:00",
+        "to": "30-11-2015T00:00"
+      }
+    ]
   },
   {
     "id": "98shj12a4dee23fa",

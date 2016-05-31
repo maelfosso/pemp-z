@@ -123,8 +123,6 @@ public class ContactsListAdapter extends RecyclerView.Adapter<ContactsListAdapte
         }
     }
 
-
-
     private class ItemFilter extends Filter {
 
         @Override
