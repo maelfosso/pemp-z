@@ -86,7 +86,6 @@ public class ContactDetailsActivity extends AppCompatActivity implements
         }
         Tools.systemBarLolipop(this);
 
-
         initActions();
     }
 
@@ -183,6 +182,5 @@ public class ContactDetailsActivity extends AppCompatActivity implements
         alphaAnimation.setFillAfter(true);
         v.startAnimation(alphaAnimation);
     }
-
 
 }

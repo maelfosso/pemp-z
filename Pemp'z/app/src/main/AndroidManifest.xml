@@ -30,7 +30,21 @@
         <activity
             android:name=".PempzDetailsActivity"
             android:label="@string/title_activity_pempz_details"
-            android:theme="@style/AppTheme"></activity>
+            android:parentActivityName=".ContactDetailsActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.pempz.ContactDetailsActivity" />
+        </activity>
+        <activity
+            android:name=".PempzActivity"
+            android:label="@string/title_activity_pempz"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.pempz.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

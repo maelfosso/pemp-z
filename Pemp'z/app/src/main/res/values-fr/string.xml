@@ -1,7 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string name="pempz_details_menu_edit">Modifier</string>
+
     <string name="pempz_details_from">Du</string>
     <string name="pempz_details_to">Au</string>
+    <string name="pempz_details_waiting_time_before_hanging_up">Duree avant de decrocher</string>
+    <string name="pempz_details_waiting_time_before_sending_message">Duree avant transmission du message</string>
 
+    <string name="pempz_form_full_day_text">Journee entiere</string>
+    <string name="pempz_form_start_text">Debute a</string>
+    <string name="pempz_form_end_text">Se termine a</string>
+    <string name="pempz_form_ring_time">Duree de la sonnerie</string>
 </resources>

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.support.annotation.IdRes;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
@@ -32,6 +33,9 @@ import com.pempz.data.Tools;
 import com.pempz.model.Contact;
 import com.pempz.widget.CircleTransform;
 import com.pempz.widget.DividerItemDecoration;
+import com.roughike.bottombar.BottomBar;
+import com.roughike.bottombar.OnMenuTabClickListener;
+import com.roughike.bottombar.OnMenuTabSelectedListener;
 import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
@@ -50,6 +54,8 @@ public class MainActivity extends AppCompatActivity
     ProgressBar progressBar;
     // @BindView(R.id.fab)
     FloatingActionButton fab;
+
+    BottomBar bottomBar;
 
     long exitTime = 0;
     boolean isSearch = false;
@@ -71,6 +77,29 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
+        bottomBar = BottomBar.attach(this, savedInstanceState);
+        bottomBar.setItems(R.menu.main_bottom_bar);
+        bottomBar.setOnMenuTabClickListener(new OnMenuTabClickListener() {
+            @Override
+            public void onMenuTabSelected(@IdRes int menuItemId) {
+                if (menuItemId == R.id.contact_item) {
+
+                }
+                switch (menuItemId) {
+                    case R.id.contact_item:
+                        break;
+                    case R.id.on_going_item:
+                        break;
+                    case R.id.recents_pempz:
+                        break;
+                }
+            }
+
+            @Override
+            public void onMenuTabReSelected(@IdRes int menuItemId) {
+
+            }
+        });
 
         initActions();
         setupDrawerLayout();
@@ -100,6 +129,7 @@ public class MainActivity extends AppCompatActivity
         parent_view = (View) findViewById(R.id.main_content);
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         navigationView = (NavigationView) findViewById(R.id.nav_view);
+
 
         View navHeader = navigationView.inflateHeaderView(R.layout.nav_header_main);
         image = (ImageView) navHeader.findViewById(R.id.avatar);

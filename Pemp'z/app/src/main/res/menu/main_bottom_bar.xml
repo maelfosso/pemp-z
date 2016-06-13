@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/contact_item"
+        android:icon="@drawable/ic_people"
+        android:title="Contacts"/>
+    <item
+        android:id="@+id/on_going_item"
+        android:icon="@drawable/ic_call_missed"
+        android:title="On Going"/>
+    <item
+        android:id="@+id/recents_pempz"
+        android:icon="@drawable/ic_phone_missed"
+        android:title="Calls Pemp'z"/>
+</menu>

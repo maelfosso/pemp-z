@@ -1,10 +1,14 @@
 package com.pempz;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
@@ -32,20 +36,15 @@ public class PempzDetailsActivity extends AppCompatActivity implements PempzList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pempz_details);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         this.pempz = (Pempz) getIntent().getSerializableExtra(EXTRA_OBJ);
 
         setTitle("Details");
-        /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-         fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });*/
         initComponents();
     }
 
@@ -58,10 +57,6 @@ public class PempzDetailsActivity extends AppCompatActivity implements PempzList
 
         SimpleDateFormat date_f = new SimpleDateFormat("dd MMM yy");
         SimpleDateFormat time_f = new SimpleDateFormat("HH:mm");
-
-        SimpleDateFormat mn = new SimpleDateFormat("MMM");
-        DecimalFormat df = new DecimalFormat("00");
-        DecimalFormat dy = new DecimalFormat("yy");
 
         Calendar f = Calendar.getInstance();
         f.setTime(pempz.getFrom());
@@ -78,6 +73,28 @@ public class PempzDetailsActivity extends AppCompatActivity implements PempzList
         from_time.setText(f_time);
         to_date.setText(t_date);
         to_time.setText(t_time);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.pempz_details, menu);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case R.id.edit:
+                Intent i = new Intent(this, PempzActivity.class);
+                i.putExtra(PempzActivity.KEY_ACTION, "Edit");
+                i.putExtra(PempzActivity.KEY_PEMPZ, pempz);
+                startActivity(i);
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
