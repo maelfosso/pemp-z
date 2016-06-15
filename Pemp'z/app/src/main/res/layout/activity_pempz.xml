@@ -12,46 +12,56 @@
         android:layout_height="wrap_content"
         android:theme="@style/AppTheme.AppBarOverlay">
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/collapsing_tool_bar_layout"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay">
+            android:layout_height="wrap_content"
+            app:elevation="0dp"
+            app:expandedTitleTextAppearance="@style/Widget.AppCompat.ActionBar.TabText"
+            app:layout_scrollFlags="scroll|enterAlways"
+            app:statusBarScrim="?attr/colorAccent">
 
-            <FrameLayout
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/colorPrimary"
+                app:popupTheme="@style/AppTheme.PopupOverlay">
 
-                <ImageButton
-                    android:id="@+id/cancel_action"
-                    android:layout_width="?attr/actionBarSize"
-                    android:layout_height="?attr/actionBarSize"
-                    android:layout_gravity="start|center_vertical"
-                    android:src="@drawable/ic_close_white"
-                    style="@style/Widget.AppCompat.ActionButton"/>
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
-                <ImageButton
-                    android:id="@+id/ok_action"
-                    android:layout_width="?attr/actionBarSize"
-                    android:layout_height="?attr/actionBarSize"
-                    android:layout_gravity="end|center_vertical"
-                    android:src="@drawable/ic_check_white"
-                    style="@style/Widget.AppCompat.ActionButton"/>
+                    <ImageButton
+                        android:id="@+id/cancel_action"
+                        android:layout_width="?attr/actionBarSize"
+                        android:layout_height="?attr/actionBarSize"
+                        android:layout_gravity="start|center_vertical"
+                        android:src="@drawable/ic_close_white"
+                        style="@style/Widget.AppCompat.ActionButton"/>
 
-            </FrameLayout>
-        </android.support.v7.widget.Toolbar>
+                    <ImageButton
+                        android:id="@+id/ok_action"
+                        android:layout_width="?attr/actionBarSize"
+                        android:layout_height="?attr/actionBarSize"
+                        android:layout_gravity="end|center_vertical"
+                        android:src="@drawable/ic_check_white"
+                        style="@style/Widget.AppCompat.ActionButton"/>
+
+                </FrameLayout>
+            </android.support.v7.widget.Toolbar>
+
+        </android.support.design.widget.CollapsingToolbarLayout>
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_pempz" />
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-    <!--android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
-        android:src="@android:drawable/ic_dialog_email" /-->
+        <include layout="@layout/content_pempz" />
+
+    </android.support.v4.widget.NestedScrollView>
 
 </android.support.design.widget.CoordinatorLayout>

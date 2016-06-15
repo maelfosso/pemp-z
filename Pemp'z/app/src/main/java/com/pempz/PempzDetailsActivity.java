@@ -12,20 +12,29 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.pempz.adapter.MainChipViewAdapter;
 import com.pempz.adapter.PempzListAdapter;
+import com.pempz.model.Contact;
 import com.pempz.model.Pempz;
+import com.plumillonforge.android.chipview.Chip;
+import com.plumillonforge.android.chipview.ChipView;
+import com.plumillonforge.android.chipview.ChipViewAdapter;
+import com.plumillonforge.android.chipview.OnChipClickListener;
 
 import org.w3c.dom.Text;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 public class PempzDetailsActivity extends AppCompatActivity implements PempzListAdapter.OnItemClickListener {
     public static String EXTRA_OBJ = "";
 
     Pempz pempz;
 
+    ChipView chips;
     TextView message;
     TextView from_date;
     TextView from_time;
@@ -49,6 +58,27 @@ public class PempzDetailsActivity extends AppCompatActivity implements PempzList
     }
 
     private void initComponents(){
+        chips = (ChipView) findViewById(R.id.chip_contacts);
+        chips.setChipSidePadding(0);
+        // chips.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+
+        List<Chip> chipList = new ArrayList<>();
+
+        ChipViewAdapter adapter = new MainChipViewAdapter(this, 0);
+        chips.setAdapter(adapter);
+
+        chipList.add(new Contact("Ange KENNE", "678594210", "@drawable/photo_female_3"));
+        chipList.add(new Contact("Audrey SCHOUAME", "694859927", "@drawable/photo_female_5"));
+        chipList.add(new Contact("Cyprien KENGNE", "655418952", "@drawable/photo_male_4"));
+        chipList.add(new Contact("Naoko KOTERA", "694582166", "@drawable/photo_female_6"));
+        chips.setChipList(chipList);
+        chips.setOnChipClickListener(new OnChipClickListener() {
+            @Override
+            public void onChipClick(Chip chip) {
+
+            }
+        });
+
         message = (TextView) findViewById(R.id.message);
         from_date = (TextView) findViewById(R.id.from_date);
         from_time = (TextView) findViewById(R.id.from_time);

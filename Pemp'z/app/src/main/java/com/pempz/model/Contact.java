@@ -1,6 +1,7 @@
 package com.pempz.model;
 
 import com.google.gson.annotations.SerializedName;
+import com.plumillonforge.android.chipview.Chip;
 
 import java.io.Serializable;
 import java.util.List;
@@ -8,7 +9,7 @@ import java.util.List;
 /**
  * Created by Mael FOSSO on 5/10/2016.
  */
-public class Contact implements Serializable {
+public class Contact implements Serializable, Chip {
     private String id;
     private String name;
     private String phone;
@@ -76,5 +77,10 @@ public class Contact implements Serializable {
 
     public void setPempz(List<Pempz> pempz) {
         this.pempz = pempz;
+    }
+
+    @Override
+    public String getText() {
+        return this.name;
     }
 }
