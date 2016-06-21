@@ -8,7 +8,9 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import com.pempz.model.Call;
 import com.pempz.model.Contact;
+import com.pempz.model.OnGoing;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -96,6 +98,30 @@ public class Constant {
         gsonBuilder.setDateFormat(ISO_FORMAT);
         Gson gson = gsonBuilder.create();
         List<Contact> items = gson.fromJson(loadJSONFromAsset(ctx, "contacts.json"), contactCollectionType);
+
+        return items;
+    }
+
+    public static List<OnGoing> getOnGoingData(Context ctx) {
+        String ISO_FORMAT = "dd-MM-yyyy'T'HH:mm";
+
+        Type contactCollectionType = new TypeToken<List<OnGoing>>(){}.getType();
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.setDateFormat(ISO_FORMAT);
+        Gson gson = gsonBuilder.create();
+        List<OnGoing> items = gson.fromJson(loadJSONFromAsset(ctx, "ongoing.json"), contactCollectionType);
+
+        return items;
+    }
+
+    public static List<Call> getCallsData(Context ctx) {
+        String ISO_FORMAT = "dd-MM-yyyy'T'HH:mm";
+
+        Type contactCollectionType = new TypeToken<List<Call>>(){}.getType();
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.setDateFormat(ISO_FORMAT);
+        Gson gson = gsonBuilder.create();
+        List<Call> items = gson.fromJson(loadJSONFromAsset(ctx, "calls.json"), contactCollectionType);
 
         return items;
     }

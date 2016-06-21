@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="5dp"
+    android:paddingLeft="5dp"
+    android:paddingRight="5dp"
+    android:paddingTop="5dp">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingBottom="@dimen/spacing_middle"
+                android:paddingLeft="@dimen/spacing_middle"
+                android:paddingTop="@dimen/spacing_middle">
+
+                <ImageView
+                    android:id="@+id/photo"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/unknown_avatar"/>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:layout_marginLeft="@dimen/spacing_middle">
+
+                    <TextView
+                        android:id="@+id/name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                        android:text="Name"
+                        android:singleLine="true"
+                        android:textStyle="bold"
+                        android:textColor="#424242"/>
+
+                    <TextView
+                        android:id="@+id/phone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Phone"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                        android:textStyle="bold"
+                        android:textColor="#424242"/>
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/up_to"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                    android:padding="@dimen/spacing_middle"
+                    android:text="2016, 15 Juin 2016"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/message"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="5"
+                android:padding="@dimen/spacing_middle"
+                android:text="@string/long_lorem_ipsum"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+                android:background="@color/grey_soft"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:padding="@dimen/spacing_middle">
+
+                <com.balysv.materialripple.MaterialRippleLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:layout_alignParentLeft="true">
+
+                    <Button
+                        android:id="@+id/audio"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:clickable="true"
+                        android:padding="5dp"
+                        android:background="@drawable/btn_round_bg"
+                        android:text="3" />
+
+                </com.balysv.materialripple.MaterialRippleLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_alignParentRight="true">
+
+                    <com.balysv.materialripple.MaterialRippleLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginRight="10dp">
+
+                        <ImageView
+                            android:id="@+id/cancel"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:clickable="true"
+                            android:padding="5dp"
+                            android:src="@drawable/ic_cancel"/>
+
+                    </com.balysv.materialripple.MaterialRippleLayout>
+
+                    <com.balysv.materialripple.MaterialRippleLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginLeft="10dp">
+
+                        <ImageView
+                            android:id="@+id/edit"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:clickable="true"
+                            android:padding="5dp"
+                            android:src="@drawable/ic_edit"/>
+
+                    </com.balysv.materialripple.MaterialRippleLayout>
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>

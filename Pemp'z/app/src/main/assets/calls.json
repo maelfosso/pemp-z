@@ -1,0 +1,42 @@
+[
+  {
+    contact: {
+      name: "Emery TCHEPIN",
+      phone: "699845888",
+      photo: "@drawable/photo_male_4"
+    },
+    time: "14:22"
+  },
+  {
+    contact: {
+      name: "Ange KENNE",
+      phone: "678451100",
+      photo: "@drawable/photo_female_3"
+    },
+    time: "13:50"
+  },
+  {
+    contact: {
+      name: "Vanessa MAKOUGOUM",
+      phone: "698456200",
+      photo: "@drawable/photo_female_4"
+    },
+    time: "13:20"
+  },
+  {
+    contact: {
+      name: "Ange KENNE",
+      phone: "678451100",
+      photo: "@drawable/photo_female_3"
+    },
+    time: "12:05"
+  },
+  {
+    contact: {
+      name: "Emery TCHEPIN",
+      phone: "699845888",
+      photo: "@drawable/photo_male_4"
+    },
+    time: "11:07"
+  }
+]

@@ -12,5 +12,5 @@
     <item
         android:id="@+id/recents_pempz"
         android:icon="@drawable/ic_phone_missed"
-        android:title="Calls Pemp'z"/>
+        android:title="Calls"/>
 </menu>

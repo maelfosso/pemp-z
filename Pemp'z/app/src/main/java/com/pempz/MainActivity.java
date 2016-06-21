@@ -1,18 +1,15 @@
 package com.pempz;
 
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.annotation.IdRes;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
-import android.util.Log;
 import android.view.MenuInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -23,35 +20,37 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.pempz.adapter.ContactsListAdapter;
-import com.pempz.data.Constant;
 import com.pempz.data.Tools;
+import com.pempz.fragment.CallsFragment;
+import com.pempz.fragment.ContactsFragment;
+import com.pempz.fragment.OnGoingFragment;
+import com.pempz.model.Call;
 import com.pempz.model.Contact;
+import com.pempz.model.OnGoing;
 import com.pempz.widget.CircleTransform;
-import com.pempz.widget.DividerItemDecoration;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnMenuTabClickListener;
-import com.roughike.bottombar.OnMenuTabSelectedListener;
 import com.squareup.picasso.Picasso;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, ContactsListAdapter.OnItemClickListener {
+        implements NavigationView.OnNavigationItemSelectedListener,
+            ContactsFragment.OnFragmentInteractionListener, OnGoingFragment.OnFragmentInteractionListener,
+        CallsFragment.OnFragmentInteractionListener {
 
     // @BindView(R.id.toolbar)
     Toolbar toolbar;
     // @BindView(R.id.action_search)
     Toolbar searchToolbar;
-    // @BindView(R.id.recyclerView)
-    RecyclerView recyclerView;
-    // @BindView(R.id.progressBar)
-    ProgressBar progressBar;
+
+    FrameLayout fragment_content;
+
     // @BindView(R.id.fab)
     FloatingActionButton fab;
 
@@ -82,17 +81,34 @@ public class MainActivity extends AppCompatActivity
         bottomBar.setOnMenuTabClickListener(new OnMenuTabClickListener() {
             @Override
             public void onMenuTabSelected(@IdRes int menuItemId) {
-                if (menuItemId == R.id.contact_item) {
+                Fragment fragment = null;
+                Class fragmentClass = null;
 
-                }
                 switch (menuItemId) {
                     case R.id.contact_item:
+                        fragmentClass = ContactsFragment.class;
+
                         break;
                     case R.id.on_going_item:
+                        fragmentClass = OnGoingFragment.class;
+
                         break;
                     case R.id.recents_pempz:
+                        fragmentClass = CallsFragment.class;
+
                         break;
                 }
+
+                try {
+                    fragment = (Fragment) fragmentClass.newInstance();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.fragment_content, fragment)
+                        .commit();
             }
 
             @Override
@@ -106,8 +122,6 @@ public class MainActivity extends AppCompatActivity
         prepareActionBar(toolbar);
 
         Tools.systemBarLolipop(this);
-
-        initRecyclerView();
     }
 
     private void initActions() {
@@ -123,8 +137,6 @@ public class MainActivity extends AppCompatActivity
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         searchToolbar = (Toolbar) findViewById(R.id.toolbar_search);
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-        progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
         parent_view = (View) findViewById(R.id.main_content);
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -137,6 +149,12 @@ public class MainActivity extends AppCompatActivity
                 .resize(250, 250)
                 .transform(new CircleTransform())
                 .into(image);
+
+        fragment_content = (FrameLayout) findViewById(R.id.fragment_content);
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.fragment_content, new ContactsFragment())
+                .commit();
     }
 
     private void setupDrawerLayout() {
@@ -179,20 +197,6 @@ public class MainActivity extends AppCompatActivity
 
         drawer.setDrawerListener(mDrawerToggle);
         mDrawerToggle.syncState();
-    }
-
-    private void initRecyclerView() {
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.hasFixedSize();
-
-        LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST));
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-
-        adapter = new ContactsListAdapter(this, Constant.getContactsData(this));
-        recyclerView.setAdapter(adapter);
-        adapter.setOnItemClickListener(this);
     }
 
     @Override
@@ -312,14 +316,20 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onItemClick(View view, int position) {
-        Contact contact = adapter.getItem(position);
-
+    public void onFragmentInteraction(Contact contact) {
         Snackbar.make(parent_view, contact.getName()+ ", " + contact.getPhone() + " Clicked ", Snackbar.LENGTH_SHORT).show();
+    }
 
-        Intent i = new Intent(this, ContactDetailsActivity.class);
-        i.putExtra(ContactDetailsActivity.EXTRA_OBJ, contact);
-        startActivity(i);
+    @Override
+    public void onFragmentInteraction(OnGoing ongo) {
+        Snackbar.make(parent_view, ongo.getContact().getName() + ", " + ongo.getPempz().getMessage()
+                , Snackbar.LENGTH_SHORT);
+    }
+
+    @Override
+    public void onFragmentInteraction(Call call) {
+        Snackbar.make(parent_view, call.getContact().getName() + ", " + call.getTime()
+                , Snackbar.LENGTH_SHORT);
     }
 
     private void closeSearch() {
@@ -340,5 +350,6 @@ public class MainActivity extends AppCompatActivity
             finish();
         }
     }
+
 
 }

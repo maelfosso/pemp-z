@@ -2,12 +2,12 @@ package com.pempz.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
@@ -15,23 +15,24 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.pempz.R;
-import com.pempz.model.Contact;
+import com.pempz.model.OnGoing;
+import com.pempz.model.OnGoing;
 import com.pempz.widget.CircleTransform;
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 /**
- * Created by Mael FOSSO on 5/10/2016.
+ * Created by Mael FOSSO on 6/17/2016.
  */
-public class ContactsListAdapter extends RecyclerView.Adapter<ContactsListAdapter.ViewHolder> implements Filterable {
+public class OnGoingListAdapter extends RecyclerView.Adapter<OnGoingListAdapter.ViewHolder>
+        implements Filterable {
 
-    private List<Contact> original_items = new ArrayList<>();
-    private List<Contact> filtered_items = new ArrayList<>();
+
+    private List<OnGoing> original_items = new ArrayList<>();
+    private List<OnGoing> filtered_items = new ArrayList<>();
     private ItemFilter mFilter = new ItemFilter();
 
     private final int mBackground;
@@ -40,11 +41,12 @@ public class ContactsListAdapter extends RecyclerView.Adapter<ContactsListAdapte
     private Context ctx;
     private OnItemClickListener mOnItemClickListener;
 
+
     public interface OnItemClickListener {
         void onItemClick(View view, int position);
     }
 
-    public ContactsListAdapter(Context context, List<Contact> items) {
+    public OnGoingListAdapter(Context context, List<OnGoing> items) {
         original_items = items;
         filtered_items = items;
 
@@ -53,8 +55,8 @@ public class ContactsListAdapter extends RecyclerView.Adapter<ContactsListAdapte
     }
 
     @Override
-    public ContactsListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_contacts_item, parent, false);
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_on_going_item, parent, false);
         v.setBackgroundColor(mBackground);
 
         ViewHolder vh = new ViewHolder(v);
@@ -62,25 +64,23 @@ public class ContactsListAdapter extends RecyclerView.Adapter<ContactsListAdapte
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, final int position) {
-        final Contact contact = filtered_items.get(position);
+    public void onBindViewHolder(ViewHolder holder, int position) {
+        final OnGoing ongo = filtered_items.get(position);
+        SimpleDateFormat date_f = new SimpleDateFormat("dd MMM yy");
+        SimpleDateFormat time_f = new SimpleDateFormat("HH:mm");
 
-        holder.name.setText(contact.getName());
-        holder.phone.setText(contact.getPhone());
-        Picasso.with(ctx).load(ctx.getResources().getIdentifier(contact.getPhoto(), null, ctx.getPackageName()))
-                .resize(100, 100)
+        holder.name.setText(ongo.getContact().getName());
+        holder.phone.setText(ongo.getContact().getPhone());
+        Picasso.with(ctx).load(ctx.getResources().getIdentifier(ongo.getContact().getPhoto(), null, ctx.getPackageName()))
+                .resize(50, 50)
                 .transform(new CircleTransform())
                 .into(holder.photo);
 
-        holder.lyt_parent.setOnClickListener(new View.OnClickListener() {
+        holder.message.setText(ongo.getPempz().getMessage());
+        holder.upTo.setText(
+                Html.fromHtml(date_f.format(ongo.getPempz().getTo()) + "<br/>" + time_f.format(ongo.getPempz().getTo())) //ongo.getPempz().getTo().toString()
+        );
 
-            @Override
-            public void onClick(View view) {
-                if (mOnItemClickListener != null) {
-                    mOnItemClickListener.onItemClick(view, position);
-                }
-            }
-        });
     }
 
     @Override
@@ -88,7 +88,7 @@ public class ContactsListAdapter extends RecyclerView.Adapter<ContactsListAdapte
         return filtered_items.size();
     }
 
-    public Contact getItem(int position) {
+    public OnGoing getItem(int position) {
         return filtered_items.get(position);
     }
 
@@ -96,7 +96,6 @@ public class ContactsListAdapter extends RecyclerView.Adapter<ContactsListAdapte
     public Filter getFilter() {
         return mFilter;
     }
-
 
     public void setOnItemClickListener(final OnItemClickListener mItemClickListener) {
         this.mOnItemClickListener = mItemClickListener;
@@ -109,6 +108,11 @@ public class ContactsListAdapter extends RecyclerView.Adapter<ContactsListAdapte
         public TextView phone;
         // @BindView(R.id.contact_item_photo)
         public ImageView photo;
+
+        public TextView message;
+
+        public TextView upTo;
+
         // @BindView(R.id.lyt_parent)
         public LinearLayout lyt_parent;
 
@@ -118,11 +122,15 @@ public class ContactsListAdapter extends RecyclerView.Adapter<ContactsListAdapte
 
             lyt_parent = (LinearLayout) view.findViewById(R.id.lyt_parent);
 
-            name = (TextView) view.findViewById(R.id.contact_item_name);
-            phone = (TextView) view.findViewById(R.id.contact_item_phone);
-            photo = (ImageView) view.findViewById(R.id.contact_item_photo);
+            name = (TextView) view.findViewById(R.id.name);
+            phone = (TextView) view.findViewById(R.id.phone);
+            photo = (ImageView) view.findViewById(R.id.photo);
+
+            message = (TextView) view.findViewById(R.id.message);
+            upTo = (TextView) view.findViewById(R.id.up_to);
         }
     }
+
 
     private class ItemFilter extends Filter {
 
@@ -131,16 +139,18 @@ public class ContactsListAdapter extends RecyclerView.Adapter<ContactsListAdapte
             String query = constraint.toString().toLowerCase();
 
             FilterResults results = new FilterResults();
-            final List<Contact> list = original_items;
-            final List<Contact> result_list = new ArrayList<>();
+            final List<OnGoing> list = original_items;
+            final List<OnGoing> result_list = new ArrayList<>();
 
             for(int i = 0; i < list.size(); i++) {
-                String str_name = list.get(i).getName();
-                String str_phone  = list.get(i).getPhone();
-                if (str_name.toLowerCase().contains(query) ||
-                        str_phone.contains(query)) {
+                String str_name = list.get(i).getContact().getName();
+                String str_phone  = list.get(i).getContact().getPhone();
+                String str_message = list.get(i).getPempz().getMessage();
 
-                    Log.d("contactlistadapter", list.get(i).getName() + " --- " + list.get(i).getPhone());
+                if (str_name.toLowerCase().contains(query) ||
+                        str_phone.contains(query) || str_message.contains(query)) {
+
+                    Log.d("contactlistadapter", list.get(i).getContact().getName() + " --- " + list.get(i).getContact().getPhone());
                     result_list.add(list.get(i));
                 }
             }
@@ -152,7 +162,7 @@ public class ContactsListAdapter extends RecyclerView.Adapter<ContactsListAdapte
 
         @Override
         protected void publishResults(CharSequence charSequence, FilterResults results) {
-            filtered_items = (List<Contact>) results.values;
+            filtered_items = (List<OnGoing>) results.values;
             notifyDataSetChanged();
         }
     }
