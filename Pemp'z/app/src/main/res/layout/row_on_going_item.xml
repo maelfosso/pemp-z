@@ -45,18 +45,14 @@
                         android:layout_height="wrap_content"
                         android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
                         android:text="Name"
-                        android:singleLine="true"
-                        android:textStyle="bold"
-                        android:textColor="#424242"/>
+                        android:singleLine="true"/>
 
                     <TextView
                         android:id="@+id/phone"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Phone"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                        android:textStyle="bold"
-                        android:textColor="#424242"/>
+                        android:textAppearance="@style/TextAppearance.AppCompat.Caption"/>
 
                 </LinearLayout>
 
@@ -97,7 +93,7 @@
                     android:layout_alignParentLeft="true">
 
                     <Button
-                        android:id="@+id/audio"
+                        android:id="@+id/nb_recordings"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:clickable="true"
@@ -121,8 +117,8 @@
 
                         <ImageView
                             android:id="@+id/cancel"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:clickable="true"
                             android:padding="5dp"
                             android:src="@drawable/ic_cancel"/>
@@ -137,8 +133,8 @@
 
                         <ImageView
                             android:id="@+id/edit"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:clickable="true"
                             android:padding="5dp"
                             android:src="@drawable/ic_edit"/>

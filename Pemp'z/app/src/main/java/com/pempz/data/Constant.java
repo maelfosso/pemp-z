@@ -15,11 +15,14 @@ import com.pempz.model.OnGoing;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Type;
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
+import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by Mael FOSSO on 5/10/2016.
@@ -68,6 +71,24 @@ public class Constant {
         }
 
         return f.floatValue();
+    }
+
+    public static int getRandomInt(int max) {
+        Random generator = new Random();
+
+        if (max > 0) {
+            return generator.nextInt(max);
+        }
+        return generator.nextInt();
+    }
+
+    public static String fromSecondToHM(int seconds) {
+        long h = TimeUnit.MILLISECONDS.toHours(new Long(seconds));
+        long m = TimeUnit.MILLISECONDS.toMinutes(new Long(seconds));
+        long s = TimeUnit.MILLISECONDS.toSeconds(new Long(seconds));
+
+        return String.format("%d:%d", TimeUnit.MILLISECONDS.toMinutes(new Long(seconds)),
+                TimeUnit.MILLISECONDS.toSeconds(new Long(seconds)) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(new Long(seconds))));
     }
 
     public static String loadJSONFromAsset(Context ctx, String fjson) {

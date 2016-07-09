@@ -8,6 +8,7 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
@@ -15,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.pempz.R;
+import com.pempz.data.Constant;
 import com.pempz.model.OnGoing;
 import com.pempz.model.OnGoing;
 import com.pempz.widget.CircleTransform;
@@ -43,7 +45,9 @@ public class OnGoingListAdapter extends RecyclerView.Adapter<OnGoingListAdapter.
 
 
     public interface OnItemClickListener {
-        void onItemClick(View view, int position);
+        void onNbRecordingsClick(View view, int position);
+        void onCancelClick(View view, int position);
+        void onEditClick(View view, int position);
     }
 
     public OnGoingListAdapter(Context context, List<OnGoing> items) {
@@ -64,7 +68,7 @@ public class OnGoingListAdapter extends RecyclerView.Adapter<OnGoingListAdapter.
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, final int position) {
         final OnGoing ongo = filtered_items.get(position);
         SimpleDateFormat date_f = new SimpleDateFormat("dd MMM yy");
         SimpleDateFormat time_f = new SimpleDateFormat("HH:mm");
@@ -75,12 +79,32 @@ public class OnGoingListAdapter extends RecyclerView.Adapter<OnGoingListAdapter.
                 .resize(50, 50)
                 .transform(new CircleTransform())
                 .into(holder.photo);
-
         holder.message.setText(ongo.getPempz().getMessage());
         holder.upTo.setText(
                 Html.fromHtml(date_f.format(ongo.getPempz().getTo()) + "<br/>" + time_f.format(ongo.getPempz().getTo())) //ongo.getPempz().getTo().toString()
         );
+        holder.nbRecordings.setText(
+                String.valueOf(Constant.getRandomInt(10))
+        );
 
+        holder.nbRecordings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mOnItemClickListener.onNbRecordingsClick(view, position);
+            }
+        });
+        holder.edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mOnItemClickListener.onEditClick(view, position);
+            }
+        });
+        holder.cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mOnItemClickListener.onCancelClick(view, position);
+            }
+        });
     }
 
     @Override
@@ -116,6 +140,10 @@ public class OnGoingListAdapter extends RecyclerView.Adapter<OnGoingListAdapter.
         // @BindView(R.id.lyt_parent)
         public LinearLayout lyt_parent;
 
+        public Button nbRecordings;
+        public ImageView cancel;
+        public ImageView edit;
+
         public ViewHolder(View view) {
             super(view);
             // ButterKnife.bind(this, view);
@@ -128,6 +156,10 @@ public class OnGoingListAdapter extends RecyclerView.Adapter<OnGoingListAdapter.
 
             message = (TextView) view.findViewById(R.id.message);
             upTo = (TextView) view.findViewById(R.id.up_to);
+
+            nbRecordings = (Button) view.findViewById(R.id.nb_recordings);
+            cancel = (ImageView) view.findViewById(R.id.cancel);
+            edit = (ImageView) view.findViewById(R.id.edit);
         }
     }
 

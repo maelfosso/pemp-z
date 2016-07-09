@@ -1,24 +1,48 @@
 package com.pempz.fragment;
 
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.res.AssetFileDescriptor;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.SeekBar;
+import android.widget.TextView;
 
+import com.pempz.PempzActivity;
 import com.pempz.R;
 import com.pempz.adapter.ContactsListAdapter;
 import com.pempz.adapter.OnGoingListAdapter;
+import com.pempz.adapter.RecordingsListAdapter;
 import com.pempz.data.Constant;
+import com.pempz.fragment.dialog.RecordListDialog;
 import com.pempz.model.OnGoing;
+import com.pempz.model.Record;
 import com.pempz.widget.DividerItemDecoration;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -99,10 +123,43 @@ public class OnGoingFragment extends Fragment
     }
 
     @Override
-    public void onItemClick(View view, int position) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(adapter.getItem(position));
-        }
+    public void onNbRecordingsClick(View view, int position) {
+        RecordListDialog dialog = new RecordListDialog();
+        dialog.show(getActivity().getSupportFragmentManager(), "recordings_list");
+        /*sb.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });*/
+
+
+
+
+    }
+
+
+    @Override
+    public void onEditClick(View view, int position) {
+        Intent i = new Intent(this.getActivity(), PempzActivity.class);
+        i.putExtra(PempzActivity.KEY_ACTION, "Edit");
+        i.putExtra(PempzActivity.KEY_PEMPZ, adapter.getItem(position));
+        startActivity(i);
+    }
+
+    @Override
+    public void onCancelClick(View view, int position) {
+
     }
 
     @Override

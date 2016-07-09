@@ -19,7 +19,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ContactDetailsActivity"
+            android:name=".PempzOfContactActivity"
             android:label="@string/title_activity_contact_details"
             android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
@@ -30,11 +30,11 @@
         <activity
             android:name=".PempzDetailsActivity"
             android:label="@string/title_activity_pempz_details"
-            android:parentActivityName=".ContactDetailsActivity"
+            android:parentActivityName=".PempzOfContactActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.pempz.ContactDetailsActivity" />
+                android:value="com.pempz.PempzOfContactActivity" />
         </activity>
         <activity
             android:name=".PempzActivity"

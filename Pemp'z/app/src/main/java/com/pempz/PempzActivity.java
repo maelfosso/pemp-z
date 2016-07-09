@@ -75,8 +75,11 @@ public class PempzActivity extends AppCompatActivity implements
         ab.setDisplayShowCustomEnabled(true);
         ab.setDisplayShowTitleEnabled(false);
 
-        this.pempz = (Pempz) getIntent().getSerializableExtra(KEY_PEMPZ);
         this.action = getIntent().getStringExtra(KEY_ACTION);
+        Log.d("PEMPZ Ation ", this.action);
+        if (this.action != "new") {
+            this.pempz = (Pempz) getIntent().getSerializableExtra(KEY_PEMPZ);
+        }
 
         initActions();
     }
@@ -84,8 +87,6 @@ public class PempzActivity extends AppCompatActivity implements
     private void initActions() {
         chips = (ChipView) findViewById(R.id.chip_contacts);
         chips.setChipSidePadding(0);
-        // chips.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-
         List<Chip> chipList = new ArrayList<>();
 
         ChipViewAdapter adapter = new MainChipViewAdapter(this, 1);
@@ -118,48 +119,38 @@ public class PempzActivity extends AppCompatActivity implements
                 Snackbar.make(view, "Ok clicked", Snackbar.LENGTH_SHORT).show();
             }
         });
-        Log.d("PEMPZ", this.pempz.toString());
 
         message = (EditText)findViewById(R.id.message);
-        message.setText(this.pempz.getMessage());
 
         SimpleDateFormat date_f = new SimpleDateFormat("dd MMM yy");
         SimpleDateFormat time_f = new SimpleDateFormat("HH:mm");
         Calendar c = Calendar.getInstance();
 
         start_date = (Button)findViewById(R.id.start_date);
-        start_date.setText(date_f.format(this.pempz.getFrom()));
         start_date.setOnClickListener(this);
 
         start_time = (Button)findViewById(R.id.start_time);
-        start_time.setText(time_f.format(this.pempz.getFrom()));
         start_time.setOnClickListener(this);
 
         end_date = (Button)findViewById(R.id.end_date);
-        end_date.setText(date_f.format(this.pempz.getTo()));
         end_date.setOnClickListener(this);
 
         end_time = (Button)findViewById(R.id.end_time);
-        end_time.setText(time_f.format(this.pempz.getTo()));
         end_time.setOnClickListener(this);
 
         full_day = (Switch)findViewById(R.id.full_day);
         full_day.setChecked(false);
-        // TODO : check if is about full one or two or more than two days
-
-        /*full_day.setOncheckListener(new Switch.OnCheckListener() {
-            @Override
-            public void onCheck(Switch aSwitch, boolean state) {
-                if (state == true) {
-                    start_time.setVisibility(View.INVISIBLE);
-                    end_time.setVisibility(View.INVISIBLE);
-                }
-            }
-        });*/
 
         ringTime = (EditText) findViewById(R.id.ring_time);
-
         waitingTimeSendingMessage = (EditText) findViewById(R.id.waiting_time_sending_message);
+/*
+        if (this.action != "new") {
+            message.setText(this.pempz.getMessage());
+            start_date.setText(date_f.format(this.pempz.getFrom()));
+            start_time.setText(time_f.format(this.pempz.getFrom()));
+            end_date.setText(date_f.format(this.pempz.getTo()));
+            end_time.setText(time_f.format(this.pempz.getTo()));
+        }*/
     }
 
     @Override

@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.pempz.R;
+import com.pempz.data.Constant;
 import com.pempz.model.Contact;
 import com.pempz.widget.CircleTransform;
 import com.squareup.picasso.Picasso;
@@ -42,6 +43,7 @@ public class ContactsListAdapter extends RecyclerView.Adapter<ContactsListAdapte
 
     public interface OnItemClickListener {
         void onItemClick(View view, int position);
+        void onPhotoClick(View view, int position);
     }
 
     public ContactsListAdapter(Context context, List<Contact> items) {
@@ -71,7 +73,18 @@ public class ContactsListAdapter extends RecyclerView.Adapter<ContactsListAdapte
                 .resize(100, 100)
                 .transform(new CircleTransform())
                 .into(holder.photo);
+        if (Constant.getRandomInt(-1) % 2 == 0) {
+            holder.onGoing.setVisibility(View.INVISIBLE);
+        }
 
+        holder.photo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mOnItemClickListener != null) {
+                    mOnItemClickListener.onPhotoClick(view, position);
+                }
+            }
+        });
         holder.lyt_parent.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -112,6 +125,8 @@ public class ContactsListAdapter extends RecyclerView.Adapter<ContactsListAdapte
         // @BindView(R.id.lyt_parent)
         public LinearLayout lyt_parent;
 
+        public TextView onGoing;
+
         public ViewHolder(View view) {
             super(view);
             // ButterKnife.bind(this, view);
@@ -121,6 +136,7 @@ public class ContactsListAdapter extends RecyclerView.Adapter<ContactsListAdapte
             name = (TextView) view.findViewById(R.id.contact_item_name);
             phone = (TextView) view.findViewById(R.id.contact_item_phone);
             photo = (ImageView) view.findViewById(R.id.contact_item_photo);
+            onGoing = (TextView) view.findViewById(R.id.contact_item_onGoing);
         }
     }
 

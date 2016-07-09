@@ -1,5 +1,6 @@
 package com.pempz;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -8,7 +9,11 @@ import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
@@ -25,12 +30,14 @@ import com.pempz.fragment.PempzFragment;
 import com.pempz.model.Contact;
 import com.pempz.model.Pempz;
 import com.pempz.widget.CircleTransform;
+import com.pempz.widget.DividerItemDecoration;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class ContactDetailsActivity extends AppCompatActivity implements
-        AppBarLayout.OnOffsetChangedListener {
+public class PempzOfContactActivity extends AppCompatActivity implements
+        AppBarLayout.OnOffsetChangedListener ,PempzListAdapter.OnItemClickListener {
     public static final String EXTRA_OBJ = "com.pempz";
 
     private static final float PERCENTAGE_TO_SHOW_TITLE_AT_TOOLBAR  = 0.9f;
@@ -45,6 +52,16 @@ public class ContactDetailsActivity extends AppCompatActivity implements
     LinearLayout tbLayout;
 
     Contact contact;
+
+
+    private RecyclerView recyclerView;
+    private FloatingActionButton fab;
+
+    private PempzListAdapter adapter;
+    private List<Pempz> items;
+
+    View view;
+
 
     boolean isSearch = false;
     boolean isTbLayoutVisible = true;
@@ -64,12 +81,6 @@ public class ContactDetailsActivity extends AppCompatActivity implements
         setSupportActionBar(toolbar);
         ((TextView) findViewById(R.id.tb_name)).setText(contact.getName());
         ((TextView) findViewById(R.id.tb_phone)).setText(contact.getPhone());
-        /*Picasso.with(this).load(getResources().getIdentifier(contact.getPhoto(), null, getPackageName()))
-                .resize(100, 100)
-                .transform(new CircleTransform())
-                .into((ImageView)findViewById(R.id.tb_avatar));*/
-        // getSupportActionBar().setTitle(contact.getName());
-        // getSupportActionBar().setSubtitle(contact.getPhone());
 
         getSupportActionBar().setDisplayUseLogoEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -79,11 +90,11 @@ public class ContactDetailsActivity extends AppCompatActivity implements
         Picasso.with(this).load(getResources().getIdentifier(contact.getPhoto(), null, getPackageName()))
                 .resize(150, 150)
                 .transform(new CircleTransform())
-                .into((ImageView)findViewById(R.id.avatar));
-
+                .into((ImageView)findViewById(R.id.photo));
+        /*
         if (viewPager != null) {
             setupViewPager(viewPager);
-        }
+        } */
         Tools.systemBarLolipop(this);
 
         initActions();
@@ -94,33 +105,28 @@ public class ContactDetailsActivity extends AppCompatActivity implements
         collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         tbLayout = (LinearLayout) findViewById(R.id.tb_lyt);
-        tabLayout = (TabLayout) findViewById(R.id.tabs);
-        viewPager = (ViewPager) findViewById(R.id.view_pager);
+        /* tabLayout = (TabLayout) findViewById(R.id.tabs);
+        viewPager = (ViewPager) findViewById(R.id.view_pager); */
+        
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
     }
 
     private void initActions() {
         appBarLayout.addOnOffsetChangedListener(this);
-        tabLayout.setupWithViewPager(viewPager);
-        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                viewPager.setCurrentItem(tab.getPosition());
-            }
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(mLayoutManager);
+        recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST));
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
 
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
+        // Log.d("Pempz", "OnCreateView --- Size ..." + items.size());
+        adapter = new PempzListAdapter(this, (contact.getPempz()));
+        recyclerView.setAdapter(adapter);
+        adapter.setOnItemClickListener(this);
 
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });
-        viewPager.setCurrentItem(1);
     }
 
-    private void setupViewPager(ViewPager viewPager) {
+    /* private void setupViewPager(ViewPager viewPager) {
         FragmentAdapter adapter = new FragmentAdapter(getSupportFragmentManager());
 
         if (f_pempz == null) {
@@ -138,7 +144,7 @@ public class ContactDetailsActivity extends AppCompatActivity implements
         adapter.addFragment(f_pempz, "Pemp'z");
 
         viewPager.setAdapter(adapter);
-    }
+    } */
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -183,4 +189,12 @@ public class ContactDetailsActivity extends AppCompatActivity implements
         v.startAnimation(alphaAnimation);
     }
 
+    @Override
+    public void onItemClick(View view, int position) {
+        Pempz pempz = adapter.getItem(position);
+
+        Intent i = new Intent(this, PempzDetailsActivity.class);
+        i.putExtra(PempzDetailsActivity.EXTRA_OBJ, pempz);
+        startActivity(i);
+    }
 }
